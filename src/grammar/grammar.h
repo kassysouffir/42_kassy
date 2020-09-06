@@ -1,10 +1,3 @@
-/**
- * @file grammar.h
- * @brief LEXER  STRUCTURES
- * @authors kassy souffir, adrien saleh
- * @version 1.0
- */
-
 #ifndef GRAMMAR_H
 #define GRAMMAR_H
 #include "lexer.h"
