@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "shell.h"
+#include "structures.h"
 
 /**
  * @brief safe malloc

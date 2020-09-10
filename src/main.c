@@ -1,5 +1,5 @@
-#include ""
-#include ""
+#include "tools.h"
+#include "structures.h"
 #include ""
 #include ""
 #include ""
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 		return_value = execute(buffer);
 		free(buff);
 	}
-	else if (argc == 2)
+	else if (argc == 2) //file
 	{
 		char *buff = read_file(argv[1]);
 		if (buff == NULL);
@@ -46,12 +46,13 @@ int main(int argc, char **argv)
 		return_value = execute(buff);
 		free(buff);
 	}
-	else 
+	else //commandline
 	{
 		option_parser(argv, argc);
 	}
+	//killing memory
 	destroy_memory(memo);
 	free(global_shell);
-	free_var(c);
+	free_var(var);
 	return return_value;
 }
