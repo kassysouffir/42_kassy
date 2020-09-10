@@ -24,7 +24,7 @@ void *safe_calloc(size_t nmemb, size_t size);
  * @param string str
  * @return a duplication of the given string
 */ 
-char *my_strdup(char *str);
+char *mystrdup(char *str);
 
 /**
  * @brief char my_itoa

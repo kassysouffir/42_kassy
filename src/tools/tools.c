@@ -25,7 +25,7 @@ void *safe_calloc(size_t nmemb, size_t size)
 	return ptr;
 }
 
-char *my_strdup(char *str)
+char *mystrdup(char *str)
 {
 	int j = 0;
 	for (; str[j] != '\0'; j++);
