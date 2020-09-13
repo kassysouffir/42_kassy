@@ -39,14 +39,12 @@ struct tokenlist *lexer(char *input)
         {
             buff[k] = input[i];
             k++;
-            continue;
         }
         else if (co > 0 && buff && buff[0] != '\0')
         {
             pitoken(buff, token_list);
 			k = 0;
             buff[k] = input[i];
-            continue;
         }
         if (po > 0 && po != co)
         {
@@ -54,7 +52,6 @@ struct tokenlist *lexer(char *input)
             if (input[i] != ' ')
             {
                 buff[k] = input[i];
-                continue;
             }
         }
         else if (input[i] == '!')
@@ -66,7 +63,6 @@ struct tokenlist *lexer(char *input)
             }
             struct token *token = token_create(BANG, "!");
             token_list = push_token(token_list, token);
-            continue;
         }
         else if (input[i] == '\'')
 		{
@@ -77,7 +73,6 @@ struct tokenlist *lexer(char *input)
 			}
 			struct token *tok = token_create(SINGLEQ, "'");
 			token_list = push_token(token_list, tok);
-			continue;
 		}
         else if (input[i] == '"')
 		{
@@ -88,12 +83,10 @@ struct tokenlist *lexer(char *input)
 			}
 			struct token *tok = token_create(DOUBLEQ, "'");
 			token_list = push_tok(token_list, tok);
-			continue;
         }
         else if (input[i] == '#')
 		{
 			i = ignore_comment(i, input);
-			continue;	
 		}
         else if (input[i] == ' ' || input[i] == ';' || input[i] == '\n')
 		{
@@ -129,12 +122,12 @@ struct tokenlist *lexer(char *input)
 	return token_list;     
 }
 
-void pitoken(char * buff, struct token_list *token_listist)
+void pitoken(char * buff, struct token_list *token_list)
 {
     char *tmp = mystrdup(buff);
     push_poiter(tmp, "lexer");
     struct token *token = token_create(get_type(buff), tmp);
-    token_listist = push_token(token_listist, token);
+    token_list = push_token(token_list, token);
     buff = flush(buff);
 }
 

@@ -21,6 +21,8 @@ enum type
     ELSE,
     DO,
     DONE,
+    R_BRAC,
+    L_BRAC,
     L_PAR,
     R_PAR,
     WORD,
