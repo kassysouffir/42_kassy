@@ -11,13 +11,13 @@ void free_var(struct var *var)
 
 void push_var(struct var *var)
 {
-        if (g_var == NULL)
+        if (global_var == NULL)
         {
-                g_var = var;
+                global_var = var;
         }       
         else
         {
-                struct var *tmp = g_var;
+                struct var *tmp = global_var;
                 for (; tmp && tmp->next != NULL; tmp = tmp->next);
                 tmp->next = var;
         }
@@ -54,22 +54,19 @@ int match_var(const char *name, const char *cmd)
 
 char **replace_var(char **args, size_t nb)
 {
-	if (!g_var)
+	if (!global_var)
 		return args;
-    	struct var *var = g_var;
+    struct var *var = global_var;
 	while (var)
 	{
-		for (size_t i = 0; i < nb; i++)
+		size_t i = 0;
+        while (i < nb)
 		{
-			//if (strcmp(var->name, args[i]) == 0) // if (mtch_var) == 0)
 			if (match_var(var->name, args[i]) == 0)
 				args[i] = var->value;
+            i++;
 		}
 		var = var->next;
 	}
-
-                //compare args[i] avec var->name
-                //if same args[i] = var->value;
-
         return args;
 }

@@ -68,6 +68,19 @@ struct tokenlist
 
 char *flush(char *buff);
 struct tokenlist *lexer(char *input);
-void pitoken(char * buff, struct token_list *token_listist);
+void pitoken(char * buff, struct token_list *token_listist)
 int ignore_comment(int i, char *str);
 int is_operator(char *input, int i);
+void set_var();
+int update_var(char *name, char *value);
+void assign_to_var(char *assignement);
+struct tokenlist * tok_init();
+
+int is_assignement(char *w);
+enum type type_check(char *word);
+
+enum type get_type(char *word);
+struct token *token_create(enum type type, char *content);
+struct tokenlist *push_tok(struct tokenlist *token_list, struct token *tok);
+void token_pop();
+void free_tok_list(struct tokenlist *tok_list);

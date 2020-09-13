@@ -19,11 +19,11 @@ void set_var()
 
 int update_var(char *name, char *value)
 {
-	if (g_var == NULL)
+	if (global_var == NULL)
 		return 1;
 	else 
 	{
-		struct var *var = g_var;
+		struct var *var = global_var;
 		for (; var ; var = var->next)
 		{
 			if (strcmp(var->name, name) == 0)
@@ -43,26 +43,26 @@ void assign_to_var(char *assignement)
 	size_t value_len = 0;
 	size_t egal_pos = name_len + 1;
 	for (; assignement[egal_pos] != '\0'; value_len++, egal_pos++);
-	char *name = ymalloc(name_len+1);
-	char *value = ymalloc(value_len+1);
+	char *name = safe_malloc(name_len+1);
+	char *value = safe_malloc(value_len+1);
 	push_pointer(name, "Assign");
 	push_pointer(value, "Assign");
 	for (size_t i = 0; i < name_len; i++)
-        {
-                name[i] = assignement[i];
-        }
+    {
+        name[i] = assignement[i];
+    }
         name[name_len] = '\0';
         size_t j = name_len + 1;
         size_t i = 0;
 	for (; assignement[j] != '\0' ; i++, j++)
-        {
-                value[i] = assignement[j];
-        }
-        value[i] = '\0';
-	//comapre name with g_var names
+    {
+        value[i] = assignement[j];
+    }
+    value[i] = '\0';
+	
 	if (update_var(name, value) == 0)
 	       return;	
-	struct var *var = ymalloc(sizeof(struct var));
+	struct var *var = safe_malloc(sizeof(struct var));
 	var->name = name;
 	var->value = value;
 	var->next = NULL;
@@ -71,13 +71,8 @@ void assign_to_var(char *assignement)
 
 struct tokenlist * tok_init()
 {
-	struct tokenlist *tok = ymalloc(sizeof(struct token));
+	struct tokenlist *tok = safe_malloc(sizeof(struct token));
 	push_pointer(tok, "tokinit");
-	if (!tok)
-	{
-		fprintf(stderr, "allocation error token_init\n");
-		return NULL;
-	}
 	tok->len = 0;
 	tok->head = NULL;
 	return tok;
@@ -162,7 +157,7 @@ enum type get_type(char *word)
 
 struct token *token_create(enum type type, char *content)
 {
-	struct token *tok = ymalloc(sizeof(struct token));
+	struct token *tok = safe_malloc(sizeof(struct token));
 	if (!tok)
 	{
 		fprintf(stderr, "allocation error tok_create\n");
@@ -185,7 +180,10 @@ struct tokenlist *push_tok(struct tokenlist *token_list, struct token *tok)
 	else 
 	{
 		struct token *tmp = token_list->head;
-		for (; tmp->next != NULL; tmp = tmp->next);
+		while (tmp->next != NULL)
+		{
+			tmp = tmp->next;
+		}
 		tok->prev = tmp;
 		tmp->next = tok;
 		tok->next = NULL;
@@ -193,23 +191,6 @@ struct tokenlist *push_tok(struct tokenlist *token_list, struct token *tok)
 	token_list->tail = tok;
 	token_list->len ++;
 	return token_list;
-}
-
-struct token *delete_none_token(struct token *tok)
-{
-	struct token *t = tok;
-	for (; t != NULL; t=t->next)
-	{
-		if (t->type == NONE)
-		{
-			struct token *tmp = t;
-			t->prev->next = t->next;
-			t->next->prev = t->prev;
-			free(tmp->cont);
-			free(tmp);
-		}
-	}
-	return t;
 }
 
 void token_pop()
@@ -220,23 +201,23 @@ void token_pop()
 	global_shell->lexer->head = first;
 }
 
-void free_tok_list(struct tokenlist *tokl)
+void free_tok_list(struct tokenlist *tok_list)
 {
-	if (!tokl)
+	if (!tok_list)
 	{
 		return;
 	}
-	struct token *tmp = tokl->head;
-	while (tokl->head != NULL)
+	struct token *tmp = tok_list->head;
+	while (tok_list->head != NULL)
 	{
-		if (tokl->head->next == NULL)
+		if (tok_list->head->next == NULL)
 		{
-			free(tokl->head);
+			free(tok_list->head);
 			break;
 		}
-		tmp = tokl->head->next;
-		free(tokl->head);
-		tokl->head = tmp;
+		tmp = tok_list->head->next;
+		free(tok_list->head);
+		tok_list->head = tmp;
 	}
-	free(tokl);
+	free(tok_list);
 }

@@ -3,21 +3,21 @@
 
 void push_pointer(void *ptr, char *str)
 {
-        if (mem->ptr == NULL && mem->next == NULL)
+        if (memoo->ptr == NULL && memoo->next == NULL)
         {
-                mem->ptr = ptr;
-                mem->nb ++;
+                memo->ptr = ptr;
+                memo->nb ++;
         }
         else
         {
-                struct memory *tmp = mem;
+                struct memory *tmp = memoo;
                 for (; tmp && tmp->next != NULL;  tmp = tmp->next);
                 struct memory *new = malloc(sizeof(struct memory));
                 new->from = str;
 		new->ptr = ptr;
                 new->next = NULL;
                 tmp->next = new;
-                mem->nb++;
+                memo->nb++;
         }
 }
 
@@ -34,25 +34,25 @@ struct memory *init_memory(void)
         return new;
 }
 
-void destroy_memory(struct memory *mem)
+void destroy_memory(struct memory *memo)
 {
-	if (mem->ptr == NULL)
+	if (memo->ptr == NULL)
 	{
-		free(mem);
+		free(memo);
         	return;
 	}
-	if (mem && mem->next != NULL)
+	if (memo && memo->next != NULL)
 	{
-		destroy_memory(mem->next);
+		destroy_memory(memo->next);
 	}
-	if (mem->ptr)
+	if (memo->ptr)
 	{
-		free(mem->ptr);
-		mem->ptr = NULL;
+		free(memo->ptr);
+		memo->ptr = NULL;
 	}
-	if (mem)
+	if (memo)
 	{
-		free(mem);
-		mem = NULL;
+		free(memo);
+		memo = NULL;
 	}
 }

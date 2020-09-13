@@ -1,42 +1,44 @@
 #include "tools.h"
 #include "structures.h"
-#include ""
-#include ""
-#include ""
-#include ""
-#include ""
-#include ""
-
-int main(int argc, char **argv)
+#include "prompt.h"
+#include "executions"
+#include "tools.h"
+#include "variable.h"
+#include "lexer.h"
+#include "option.h"
+void init()
 {
-//initialization
-	signal(SIGINT, killex);
-	int return_value = 0;
 	memo = init_memory();
 	global_var = NULL;
 	struct var *var = malloc(sizeof(struct var));
 	var->next = NULL;
 	var->name = "";
 	var->value = NULL;
-	gloval_var = var;
+	global_var = var;
 	global_shell = malloc (sizeof(struct shell));
 	global_shell->lexer = NULL;
 	global_shell->lexer = NULL;
 	global_shell->print_ast = 0;
 	global_shell->is_interactive = 0;
-
+}
+int main(int argc, char **argv)
+{
+//initialization
+	signal(SIGINT, killex);
+	int return_value = 0;
+	init();
 //Mode
-	if (isatty(0) && argc == 1) //interactive
-	{
-		prompt();
-	}
-	else if (isatty(1) && argc == 1) //stdin
+	if (isatty(1) && argc == 1) //stdin
 	{
 		char *buffer = read_stdin();
 		if (!buffer)
 			return 127;
 		return_value = execute(buffer);
 		free(buff);
+	}
+	else if (isatty(0) && argc == 1) //interactive
+	{
+		prompt();
 	}
 	else if (argc == 2) //file
 	{

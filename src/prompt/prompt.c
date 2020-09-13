@@ -3,7 +3,7 @@
 #include <readline/history.h>
 
 
-void killer_exit(int sign)
+void killex(int sign)
 {
 	if (sign == SIGINT)
 	{
