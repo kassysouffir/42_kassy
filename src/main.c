@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 		return_value = execute(buffer);
 		free(buffer);
 	}
-	else if (argc == 2) //file
+	else if (argc == 2 && is_file(argv[1]) == 0) //file
 	{
 		char *buff = read_file(argv[1]);
 		if (buff == NULL)

@@ -2,6 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
+
+int is_file(char *name)
+{
+	if (access(name, F_OK) != -1)
+		return 0;
+	else
+	{
+		return 1;
+	}
+}
 
 void *safe_malloc(size_t size)
 {

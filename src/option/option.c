@@ -3,11 +3,16 @@
 #include <stdio.h>
 #include "tools.h"
 
-
+void display_help()
+{
+	printf("Interactive mode : ./42sh > [COMMAND]\n");
+	printf("Stdin mode : [COMMAND] | ./42sh\n");
+	printf("File mode : ./42sh [FILE PATH]\n");
+	printf("cmd line : ./42sh -c [COMMAND LINE]\n");
+}
 int option_parser(char **argv, int argc)
 {
-	int i = 1;
-	while (i < argc)
+	for (int i = 1; i < argc; i++)
 	{
 		if (strcmp(argv[i], "-c") == 0)
 		{
@@ -21,23 +26,13 @@ int option_parser(char **argv, int argc)
 				return 1;
 			}
 		}
+		else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-help") == 0)
+		{
+			display_help();
+			return 0;
+		}
 		else if (strcmp(argv[i], "--norc") == 0)
 		{
-			//TODO
-			return 0;
-		}
-		else if (strcmp(argv[i], "--ast-print") == 0)
-		{
-			global_shell->print_ast = 1;
-			return 0;
-		}
-		else if (strcmp(argv[i], "+O") == 0)
-		{
-			//TODO
-			return 0;
-		}
-		else if (strcmp(argv[i], "-O") == 0)
-		{		
 			//TODO
 			return 0;
 		}

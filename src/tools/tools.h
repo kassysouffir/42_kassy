@@ -33,6 +33,7 @@ char *mystrdup(char *str);
 */
 char *my_itoa(int value, char *s);
 
+int is_file(char *name);
 
 
 #endif
