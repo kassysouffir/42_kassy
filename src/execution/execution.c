@@ -23,10 +23,7 @@ int execute(char *str)
 	int res = exec_list(list);
 	if (res != 0)
 		res = 127;
-	
-	/*if (global_shell->print_ast == 1)
-		print_node_list(list, stdout);
-	*/
+
     destroy_node_list(list);
 
 	char *cres = malloc(10);
@@ -61,16 +58,6 @@ int exec(char **args)
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
     return status;
-}
-
-int exec_pipeline(struct node_pipeline *node)
-{
-    int res = 0;
-    for (struct node_pipeline *tmp = node; tmp; tmp = tmp->next)
-    {
-        res = exec_command(node->command);
-    }
-    return res;
 }
 
 int exec_and_or(struct node_and_or *node)
@@ -135,6 +122,16 @@ int exec_while(struct node_while *node)
     while (exec_compound(node->condition))
     {
         res = exec_compound(node->body);
+    }
+    return res;
+}
+
+int exec_pipeline(struct node_pipeline *node)
+{
+    int res = 0;
+    for (struct node_pipeline *tmp = node; tmp; tmp = tmp->next)
+    {
+        res = exec_command(node->command);
     }
     return res;
 }

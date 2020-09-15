@@ -7,6 +7,7 @@ struct node_command *rule_command()
 {
 	struct node_command *cmd = malloc(sizeof(struct node_command));
 	struct node_simple *s_cmd = rule_simple_command();
+	
 	if (s_cmd)
 	{
 		cmd->command = s_cmd;;
@@ -21,6 +22,7 @@ struct node_command *rule_command()
 		return cmd;
 	}
 	struct node_func *fc_cmd = rule_funcdec();
+	
 	if (fc_cmd)
 	{
 		cmd->command = fc_cmd;

@@ -15,6 +15,7 @@ struct node_and_or *rule_and_or()
 {
 	if (global_shell->lexer->head->type == ENDOF)
 		return NULL;
+	
 	struct node_pipeline *pipe = rule_pipeline();
 	if (pipe)
 	{

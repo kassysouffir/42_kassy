@@ -22,8 +22,10 @@ struct node_else *rule_else()
     else if (global_shell->lexer->head && global_shell->lexer->head->type == ELIF)
     {
         token_pop();
+
         struct node_compound *condition = rule_compound();
-        if (condition)
+       
+       if (condition)
         {
             node = malloc(sizeof(struct node_else));
             node->elif_condition = condition;
