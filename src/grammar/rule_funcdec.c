@@ -5,29 +5,29 @@
 
 struct node_func *rule_funcdec()
 {
-	if (g_shell->lexer->head && g_shell->lexer->head->type == FUNCTION)
+	if (global_shell->lexer->head && global_shell->lexer->head->type == FUNCTION)
     {
         token_pop();
     }
 
-    if (g_shell->lexer->head && g_shell->lexer->head->type != WORD)
+    if (global_shell->lexer->head && global_shell->lexer->head->type != WORD)
     {
         
         errx(1, "Syntax Error: expected WORD token after 'function'");
         return NULL;
     }
-    char *func_name = my_strdup(g_shell->lexer->head->cont);
+    char *func_name = mystrdup(global_shell->lexer->head->str);
     token_pop();
 
-    if (g_shell->lexer->head && g_shell->lexer->head->type != L_PAR)
+    if (global_shell->lexer->head && global_shell->lexer->head->type != L_PAR)
         errx(1, "Syntax Error: expected '(' in function declaration");
     token_pop();
 
-    if (g_shell->lexer->head && g_shell->lexer->head->type != R_PAR)
+    if (global_shell->lexer->head && global_shell->lexer->head->type != R_PAR)
         errx(1, "Syntax Error: expected ')' in function declaration");
     token_pop();
 
-    while (g_shell->lexer->head && g_shell->lexer->head->type == NL)
+    while (global_shell->lexer->head && global_shell->lexer->head->type == NL)
     {
         token_pop();
     }

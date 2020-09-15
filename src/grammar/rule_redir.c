@@ -29,24 +29,24 @@ struct node_redir *rule_redir()
 {
     struct node_redir *node_redir = malloc(sizeof(struct node_redir));
     node_redir->ionumber = -1;
-    if (g_shell->lexer->head && g_shell->lexer->head->type == IONUMBER)
+    if (global_shell->lexer->head && global_shell->lexer->head->type == IONUMBER)
     {
-        node_redir->ionumber = atoi(g_shell->lexer->head->cont);
+        node_redir->ionumber = atoi(global_shell->lexer->head->str);
         token_pop();
     }
-    if (g_shell->lexer->head && is_redir(g_shell->lexer->head->type) == 0)
+    if (global_shell->lexer->head && is_redir(global_shell->lexer->head->type) == 0)
     {
 	free(node_redir);
         return NULL;
     }
     else
     {
-        node_redir->word = g_shell->lexer->head->cont;
+        node_redir->word = global_shell->lexer->head->str;
         token_pop();
     }
-    if (g_shell->lexer->head && g_shell->lexer->head->type == WORD)
+    if (global_shell->lexer->head && global_shell->lexer->head->type == WORD)
     {
-        node_redir->word = g_shell->lexer->head->cont;
+        node_redir->word = global_shell->lexer->head->str;
         return node_redir;
     }
     else

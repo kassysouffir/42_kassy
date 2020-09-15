@@ -32,7 +32,7 @@ void prompt(void)
 			break;
 		if (buff[0] == '\0')
 			break;
-		signal(SIGINT, killer_exit);
+		signal(SIGINT, killex);
 		status = execute(buff);
 		add_history(buff);
 		free(buff);

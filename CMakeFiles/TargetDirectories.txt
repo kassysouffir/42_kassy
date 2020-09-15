@@ -1,0 +1,5 @@
+/home/drimec/projects/kassy_42/CMakeFiles/rebuild_cache.dir
+/home/drimec/projects/kassy_42/CMakeFiles/check.dir
+/home/drimec/projects/kassy_42/CMakeFiles/doc.dir
+/home/drimec/projects/kassy_42/CMakeFiles/edit_cache.dir
+/home/drimec/projects/kassy_42/CMakeFiles/42sh.dir

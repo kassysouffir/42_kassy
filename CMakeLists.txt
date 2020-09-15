@@ -6,13 +6,11 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/src/lexer/
 	${CMAKE_SOURCE_DIR}/src/option/
 	${CMAKE_SOURCE_DIR}/src/prompt/
-	${CMAKE_SOURCE_DIR}/src/exec/
+	${CMAKE_SOURCE_DIR}/src/execution/
 	${CMAKE_SOURCE_DIR}/src/ast/
 	${CMAKE_SOURCE_DIR}/src/grammar/
-	${CMAKE_SOURCE_DIR}/src/parser/
-	${CMAKE_SOURCE_DIR}/src/shell/
+	${CMAKE_SOURCE_DIR}/src/structures/
 	${CMAKE_SOURCE_DIR}/src/read/
-	${CMAKE_SOURCE_DIR}/src/builtin/
 	${CMAKE_SOURCE_DIR}/src/tools
 	${CMAKE_SOURCE_DIR}/src/variable
 )
@@ -27,7 +25,6 @@ src/grammar/rule_command.c
 src/grammar/rule_while.c
 src/grammar/rule_pipeline.c
 src/grammar/rule_else.c
-src/grammar/rule_case.c
 src/grammar/rule_until.c
 src/grammar/rule_list.c
 src/grammar/rule_element.c

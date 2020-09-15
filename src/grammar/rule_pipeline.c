@@ -12,11 +12,11 @@ struct node_pipeline *init_pipeline(struct node_command *cmd)
 
 struct node_pipeline *rule_pipeline()
 {
-	if (!g_shell->lexer->head)
+	if (!global_shell->lexer->head)
 		return NULL;
-	if (g_shell->lexer->head->type == BANG)
+	if (global_shell->lexer->head->type == BANG)
 	{
-		g_shell->is_not = 1;
+		global_shell->is_not = 1;
 		token_pop();
 	}
 	struct node_command *cmd = rule_command();
@@ -24,10 +24,10 @@ struct node_pipeline *rule_pipeline()
 	{
 		struct node_pipeline *pipe = init_pipeline(cmd);
 		struct node_pipeline *cur = pipe;
-		while (g_shell->lexer->head && g_shell->lexer->head->type == PIPE)
+		while (global_shell->lexer->head && global_shell->lexer->head->type == PIPE)
 		{
 			token_pop();
-			while (g_shell->lexer->head && g_shell->lexer->head->type == NL)
+			while (global_shell->lexer->head && global_shell->lexer->head->type == NL)
 				token_pop();
 			cmd = rule_command();
 			if (cmd)
@@ -37,7 +37,7 @@ struct node_pipeline *rule_pipeline()
 				cur = new;
 			}
 			else 
-				errx(1, "Syntax error: Unexpected '%s' after '|'", g_shell->lexer->head->cont);
+				errx(1, "Syntax error: Unexpected '%s' after '|'", global_shell->lexer->head->str);
 		}
 		return pipe;
 	}

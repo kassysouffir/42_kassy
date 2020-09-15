@@ -6,7 +6,7 @@
 struct node_else *rule_else()
 {
     struct node_else *node = NULL;
-    if (g_shell->lexer->head->type == ELSE)
+    if (global_shell->lexer->head->type == ELSE)
     {
         token_pop();
         struct node_compound *body = rule_compound();
@@ -19,7 +19,7 @@ struct node_else *rule_else()
             return node;
         }
     }
-    else if (g_shell->lexer->head && g_shell->lexer->head->type == ELIF)
+    else if (global_shell->lexer->head && global_shell->lexer->head->type == ELIF)
     {
         token_pop();
         struct node_compound *condition = rule_compound();
@@ -33,7 +33,7 @@ struct node_else *rule_else()
             fprintf (stderr, "Syntax ERROR: conditon expected after ELIF");
             return NULL;
         }
-        if (g_shell->lexer->head && g_shell->lexer->head->type == THEN)
+        if (global_shell->lexer->head && global_shell->lexer->head->type == THEN)
         {
             token_pop();
         }

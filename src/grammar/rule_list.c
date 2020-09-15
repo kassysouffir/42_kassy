@@ -12,14 +12,14 @@ struct node_list *rule_list()
 	node_list->next = NULL;
 
 	struct node_list *curr_list = node_list;
-	if (!g_shell->lexer->head)
+	if (!global_shell->lexer->head)
 		return NULL;
-	while (g_shell->lexer->head->type == SEMICOLON 
-			|| g_shell->lexer->head->type == AND
-			|| g_shell->lexer->head->type == NL)
+	while (global_shell->lexer->head->type == SEMICOLON 
+			|| global_shell->lexer->head->type == AND
+			|| global_shell->lexer->head->type == NL)
 	{
 		token_pop();
-		while(g_shell->lexer->head->type == NL)
+		while(global_shell->lexer->head->type == NL)
 			token_pop();
 		and_or = rule_and_or();
 		if (and_or != NULL)
@@ -33,7 +33,7 @@ struct node_list *rule_list()
 		else
 			return node_list;
 	}
-	if (g_shell->lexer->head->type == AND || g_shell->lexer->head->type == SEMICOLON)
+	if (global_shell->lexer->head->type == AND || global_shell->lexer->head->type == SEMICOLON)
 		token_pop();
 	return node_list;
 }

@@ -13,9 +13,9 @@ struct node_if *init_if_node(struct node_compound *condition, struct node_compou
 
 struct node_if *rule_if()
 {
-	if (!g_shell->lexer->head)
+	if (!global_shell->lexer->head)
 		return NULL;
-	if (g_shell->lexer->head->type != IF)
+	if (global_shell->lexer->head->type != IF)
 		return NULL;
 	token_pop();
 	struct node_compound *condition = rule_compound();
@@ -23,7 +23,7 @@ struct node_if *rule_if()
 	{
 		errx(1, "Wrong syntax : compound expected after 'if'");
 	}
-	if (g_shell->lexer->head && g_shell->lexer->head->type != THEN)
+	if (global_shell->lexer->head && global_shell->lexer->head->type != THEN)
 		errx(1, "Wrong syntax: missing 'then' after 'if' statement");
 	token_pop();
 	struct node_compound *if_body = rule_compound();
@@ -31,7 +31,7 @@ struct node_if *rule_if()
 		errx(1, "Syntax error: compound expected after 'then'");
 	struct node_if *node_if= init_if_node(condition, if_body);
 	node_if->else_body = rule_else();
-	if (g_shell->lexer->head && (g_shell->lexer->head && g_shell->lexer->head->type != FI))
+	if (global_shell->lexer->head && (global_shell->lexer->head && global_shell->lexer->head->type != FI))
 		errx(1, "Syntax error: 'fi' expected at the end of 'if' statement");
 	token_pop();
 	return node_if;

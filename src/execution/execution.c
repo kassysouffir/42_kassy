@@ -11,11 +11,11 @@
 int execute(char *str)
 {
 	struct tokenlist *tok_l = lexer(str);
-	g_shell->lexer = tok_l;
+	global_shell->lexer = tok_l;
 	
 	set_var();
 	struct node_list *list = rule_list();
-	g_shell->list = list;
+	global_shell->list = list;
 	
 	if (!list && tok_l->head)
 		return 1;
@@ -24,15 +24,16 @@ int execute(char *str)
 	if (res != 0)
 		res = 127;
 	
-	if (g_shell->print_ast == 1)
+	/*if (global_shell->print_ast == 1)
 		print_node_list(list, stdout);
-	destroy_node_list(list);
-	
+	*/
+    destroy_node_list(list);
+
 	char *cres = malloc(10);
     	push_pointer(cres, "exe");
     	cres = my_itoa(res, cres);
     	update_var("?", cres);
-    	if (g_shell && g_shell->is_interactive == 1)
+    	if (global_shell && global_shell->is_interactive == 1)
 		return 0;
 	return res;
 }
@@ -185,7 +186,7 @@ int exec_simple(struct node_simple *node)
     struct node_simple *tmp = node;
     size_t nb = 10;
     size_t size_args = 0;
-    char **args = ymalloc(sizeof(char*) * nb);
+    char **args = safe_malloc(sizeof(char*) * nb);
     push_pointer(args, "exec");
     int res = 0;
     for (; tmp; tmp = tmp->next)
@@ -199,14 +200,14 @@ int exec_simple(struct node_simple *node)
         {
 	    if (tmp->next == NULL)
 	    {
-		char *tp = my_strdup(tmp->element->word);
+		char *tp = mystrdup(tmp->element->word);
 		push_pointer(tp, "exec simple");
 	        args[size_args] = tp;
 		args[size_args+1] = NULL;
 		cmd++;
 		break;
 	    }
-	    char *tp = my_strdup(tmp->element->word);
+	    char *tp = mystrdup(tmp->element->word);
 	    push_pointer(tp, "exec simple");
 	    args[size_args] = tp;
 	    size_args++;
@@ -216,12 +217,13 @@ int exec_simple(struct node_simple *node)
 	{
 		continue;
 	}
+    }
     if (cmd == 0)
 	    return 0;
     size_args++;
-    if (is_builtin(args, size_args))
+    /*if (is_builtin(args, size_args))
 	   res = exec_builtin(args, size_args);
-    else
+    else*/
     {
 	    args = replace_var(args, size_args);
 	    res = exec(args);

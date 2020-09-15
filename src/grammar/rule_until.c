@@ -6,11 +6,11 @@
 struct node_until *rule_until()
 {
     struct node_until *node_until = NULL;
-    if (g_shell->lexer->head && g_shell->lexer->head->type == UNTIL)
+    if (global_shell->lexer->head && global_shell->lexer->head->type == UNTIL)
     {
         token_pop();
         struct node_compound *condition = rule_compound();
-        if (g_shell->lexer->head)
+        if (global_shell->lexer->head)
         {
             node_until = malloc(sizeof(struct node_until));
             node_until->condition = condition;

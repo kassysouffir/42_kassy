@@ -12,7 +12,7 @@ struct node_compound *init_compound(struct node_and_or *cmd)
 
 struct node_compound *rule_compound()
 {
-	while (g_shell->lexer->head && g_shell->lexer->head->type == NL)
+	while (global_shell->lexer->head && global_shell->lexer->head->type == NL)
 	{
 		token_pop();
 	}
@@ -22,14 +22,14 @@ struct node_compound *rule_compound()
 	{
 		struct node_compound *compound = init_compound(cmd);
 		struct node_compound *cur = compound;
-		while (g_shell->lexer->head && (g_shell->lexer->head->type == SEMICOLON 
-				|| g_shell->lexer->head->type == AND 
-				|| g_shell->lexer->head->type == NL))
+		while (global_shell->lexer->head && (global_shell->lexer->head->type == SEMICOLON 
+				|| global_shell->lexer->head->type == AND 
+				|| global_shell->lexer->head->type == NL))
 		{
 			token_pop();
-			while (g_shell->lexer->head && (g_shell->lexer->head->type == AND 
-						|| g_shell->lexer->head->type == SEMICOLON 
-						|| g_shell->lexer->head->type == NL))
+			while (global_shell->lexer->head && (global_shell->lexer->head->type == AND 
+						|| global_shell->lexer->head->type == SEMICOLON 
+						|| global_shell->lexer->head->type == NL))
 				token_pop();
 			cmd = rule_and_or();
 			if (cmd != NULL)
@@ -39,8 +39,8 @@ struct node_compound *rule_compound()
 				cur = new;
 			}
 		}
-		if (g_shell->lexer->head && (g_shell->lexer->head->type == SEMICOLON 
-					|| g_shell->lexer->head->type == AND))
+		if (global_shell->lexer->head && (global_shell->lexer->head->type == SEMICOLON 
+					|| global_shell->lexer->head->type == AND))
 			token_pop();
 		return compound;
 	}

@@ -28,7 +28,7 @@ int option_parser(char **argv, int argc)
 		}
 		else if (strcmp(argv[i], "--ast-print") == 0)
 		{
-			g_shell->print_ast = 1;
+			global_shell->print_ast = 1;
 			return 0;
 		}
 		else if (strcmp(argv[i], "+O") == 0)

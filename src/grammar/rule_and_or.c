@@ -13,22 +13,22 @@ struct node_and_or *init_and_or(struct node_pipeline *pipe)
 
 struct node_and_or *rule_and_or()
 {
-	if (g_shell->lexer->head->type == ENDOF)
+	if (global_shell->lexer->head->type == ENDOF)
 		return NULL;
 	struct node_pipeline *pipe = rule_pipeline();
 	if (pipe)
 	{
 		struct node_and_or *andor = init_and_or(pipe);
 		struct node_and_or *cur = andor;
-		while (g_shell->lexer->head && (g_shell->lexer->head->type == OR || g_shell->lexer->head->type == AND))
+		while (global_shell->lexer->head && (global_shell->lexer->head->type == OR || global_shell->lexer->head->type == AND))
 		{
-			if (g_shell->lexer->head->type == OR)
+			if (global_shell->lexer->head->type == OR)
 				cur->type = NODE_OR;
-			else if (g_shell->lexer->head->type == AND)
+			else if (global_shell->lexer->head->type == AND)
 				cur->type = NODE_AND;
 			token_pop();
 
-			while (g_shell->lexer->head && g_shell->lexer->head->type == NL)
+			while (global_shell->lexer->head && global_shell->lexer->head->type == NL)
 				token_pop();
 
 			pipe = rule_pipeline();

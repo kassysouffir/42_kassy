@@ -24,7 +24,7 @@ char *read_stdin()
 {
     int size = 1024;
 
-    char *buff = ymalloc(size);
+    char *buff = safe_malloc(size);
 
     if (!buff)
     {

@@ -14,7 +14,7 @@ char *flush(char *buff)
 struct tokenlist *lexer(char *input)
 {
     int k = 0;
-    struct token_list *token_list = tok_init();
+    struct tokenlist *token_list = tok_init();
     if (!token_list)
     {
         fprintf(stderr, "alloc error lexer\n");
@@ -33,7 +33,7 @@ struct tokenlist *lexer(char *input)
 
         if (input[i] == '\0')
             break;
-        else if (strcmp(buff, "") == 0 && input[0] == " ")
+        else if (strcmp(buff, "") == 0 && input[0] == ' ')
             continue;
         else if (po > 0 && po == co)
         {
@@ -62,7 +62,7 @@ struct tokenlist *lexer(char *input)
 				k = 0;
             }
             struct token *token = token_create(BANG, "!");
-            token_list = push_token(token_list, token);
+            token_list = push_tok(token_list, token);
         }
         else if (input[i] == '\'')
 		{
@@ -72,7 +72,7 @@ struct tokenlist *lexer(char *input)
 				k = 0;
 			}
 			struct token *tok = token_create(SINGLEQ, "'");
-			token_list = push_token(token_list, tok);
+			token_list = push_tok(token_list, tok);
 		}
         else if (input[i] == '"')
 		{
@@ -122,12 +122,12 @@ struct tokenlist *lexer(char *input)
 	return token_list;     
 }
 
-void pitoken(char * buff, struct token_list *token_list)
+void pitoken(char * buff, struct tokenlist *token_list)
 {
     char *tmp = mystrdup(buff);
-    push_poiter(tmp, "lexer");
+    push_pointer(tmp, "lexer");
     struct token *token = token_create(get_type(buff), tmp);
-    token_list = push_token(token_list, token);
+    token_list = push_tok(token_list, token);
     buff = flush(buff);
 }
 

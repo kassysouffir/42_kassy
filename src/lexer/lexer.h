@@ -36,7 +36,7 @@ enum type
     AND,
     LG,
     GREATOR,
-    GREANTAND,
+    GREATAND,
     LESSAND,
     DLOWERM,
     DLOWER,
@@ -68,7 +68,7 @@ struct tokenlist
 
 char *flush(char *buff);
 struct tokenlist *lexer(char *input);
-void pitoken(char * buff, struct token_list *token_listist)
+void pitoken(char * buff, struct tokenlist *token_list);
 int ignore_comment(int i, char *str);
 int is_operator(char *input, int i);
 void set_var();
@@ -84,3 +84,5 @@ struct token *token_create(enum type type, char *content);
 struct tokenlist *push_tok(struct tokenlist *token_list, struct token *tok);
 void token_pop();
 void free_tok_list(struct tokenlist *tok_list);
+
+#endif

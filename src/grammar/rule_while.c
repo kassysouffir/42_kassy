@@ -5,7 +5,7 @@
 struct node_while *rule_while()
 {
     struct node_while *node_while = NULL;
-    if (g_shell->lexer->head->type == WHILE)
+    if (global_shell->lexer->head->type == WHILE)
     {
         token_pop();
         struct node_compound *condition = rule_compound();

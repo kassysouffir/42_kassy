@@ -12,7 +12,7 @@ void set_var()
 		if (tok->type == ASSIGNEMENT)
 		{
 
-			assign_to_var(tok->cont);
+			assign_to_var(tok->str);
 		}
 	}
 }
@@ -165,7 +165,7 @@ struct token *token_create(enum type type, char *content)
 	}
 	push_pointer(tok, "token create");
 	tok->type = type;
-	tok->cont = content;
+	tok->str = content;
 	return tok;
 }
 

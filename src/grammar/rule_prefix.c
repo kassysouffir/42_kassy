@@ -13,9 +13,9 @@ struct node_prefix *init_prefix(char *word, struct node_redir *redir)
 struct node_prefix *rule_prefix()
 {
     struct node_prefix *pref = NULL;
-    if (g_shell->lexer->head && g_shell->lexer->head->type == ASSIGNEMENT)
+    if (global_shell->lexer->head && global_shell->lexer->head->type == ASSIGNEMENT)
     {
-        pref = init_prefix(g_shell->lexer->head->cont, NULL);
+        pref = init_prefix(global_shell->lexer->head->str, NULL);
         token_pop();
         return pref;
     }

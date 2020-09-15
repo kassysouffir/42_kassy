@@ -3,14 +3,14 @@
 
 void push_pointer(void *ptr, char *str)
 {
-        if (memoo->ptr == NULL && memoo->next == NULL)
+        if (memo->ptr == NULL && memo->next == NULL)
         {
                 memo->ptr = ptr;
                 memo->nb ++;
         }
         else
         {
-                struct memory *tmp = memoo;
+                struct memory *tmp = memo;
                 for (; tmp && tmp->next != NULL;  tmp = tmp->next);
                 struct memory *new = malloc(sizeof(struct memory));
                 new->from = str;
