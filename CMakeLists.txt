@@ -11,8 +11,9 @@ include_directories(
 	${CMAKE_SOURCE_DIR}/src/grammar/
 	${CMAKE_SOURCE_DIR}/src/structures/
 	${CMAKE_SOURCE_DIR}/src/read/
-	${CMAKE_SOURCE_DIR}/src/tools
-	${CMAKE_SOURCE_DIR}/src/variable
+	${CMAKE_SOURCE_DIR}/src/tools/
+	${CMAKE_SOURCE_DIR}/src/variable/
+	${CMAKE_SOURCE_DIR}/src/builtin/
 )
 
 set(cfiles
@@ -52,6 +53,9 @@ src/execution/execution.c
 src/lexer/lexer.c
 src/lexer/token.c
 src/main.c
+
+src/builtin/builtin.c
+
 )
 
 add_custom_target(doc 

@@ -13,13 +13,13 @@ void push_var(struct var *var)
 {
         if (global_var == NULL)
         {
-                global_var = var;
+            global_var = var;
         }       
         else
         {
-                struct var *tmp = global_var;
-                for (; tmp && tmp->next != NULL; tmp = tmp->next);
-                tmp->next = var;
+            struct var *tmp = global_var;
+            for (; tmp && tmp->next != NULL; tmp = tmp->next);
+            tmp->next = var;
         }
 }
 

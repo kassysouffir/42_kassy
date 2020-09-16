@@ -1,6 +1,7 @@
 #define _DEFAULT_SOURCE
 
-#include <sys/types.h> 
+#include "builtin.h"
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
@@ -10,31 +11,30 @@
 
 int execute(char *str)
 {
-	struct tokenlist *tok_l = lexer(str);
-	global_shell->lexer = tok_l;
-	
-	set_var();
-	struct node_list *list = rule_list();
-	global_shell->list = list;
-	
-	if (!list && tok_l->head)
-		return 1;
+    struct tokenlist *tok_l = lexer(str);
+    global_shell->lexer = tok_l;
 
-	int res = exec_list(list);
-	if (res != 0)
-		res = 127;
+    set_var();
+    struct node_list *list = rule_list();
+    global_shell->list = list;
+
+    if (!list && tok_l->head)
+        return 1;
+
+    int res = exec_list(list);
+    if (res != 0)
+        res = 127;
 
     destroy_node_list(list);
 
-	char *cres = malloc(10);
-    	push_pointer(cres, "exe");
-    	cres = my_itoa(res, cres);
-    	update_var("?", cres);
-    	if (global_shell && global_shell->is_interactive == 1)
-		return 0;
-	return res;
+    char *cres = malloc(10);
+    push_pointer(cres, "exe");
+    cres = my_itoa(res, cres);
+    update_var("?", cres);
+    if (global_shell && global_shell->is_interactive == 1)
+        return 0;
+    return res;
 }
-
 
 int exec(char **args)
 {
@@ -42,16 +42,17 @@ int exec(char **args)
     int status;
     if (pid == -1)
     {
-	errx(1,"Fork execution error");
+        errx(1, "Fork execution error");
     }
     if (pid == 0)
     {
         status = execvp(args[0], args);
-	errx(127,"%s: command not found",args[0]);
+        errx(127, "%s: command not found", args[0]);
     }
     else
     {
-        do {
+        do
+        {
             pid_t wpid = waitpid(pid, &status, WUNTRACED);
             if (wpid == -1)
                 return 1;
@@ -91,17 +92,17 @@ int exec_compound(struct node_compound *node)
 
 int exec_else(struct node_else *node)
 {
-	if (node->elif_condition != NULL)
-	{
-		if (exec_compound(node->elif_condition))
-			return exec_compound(node->elif_body);
-		else
-			return exec_else(node->else_node);
-	}
-	else
-	{
-		return exec_else(node->else_node);
-	}
+    if (node->elif_condition != NULL)
+    {
+        if (exec_compound(node->elif_condition))
+            return exec_compound(node->elif_body);
+        else
+            return exec_else(node->else_node);
+    }
+    else
+    {
+        return exec_else(node->else_node);
+    }
 }
 
 int exec_if(struct node_if *node)
@@ -138,7 +139,7 @@ int exec_pipeline(struct node_pipeline *node)
 
 int exec_until(struct node_until *node)
 {
-    int res = 0;	
+    int res = 0;
     while (!exec_compound(node->condition))
     {
         exec_compound(node->body);
@@ -183,47 +184,47 @@ int exec_simple(struct node_simple *node)
     struct node_simple *tmp = node;
     size_t nb = 10;
     size_t size_args = 0;
-    char **args = safe_malloc(sizeof(char*) * nb);
+    char **args = safe_malloc(sizeof(char *) * nb);
     push_pointer(args, "exec");
     int res = 0;
     for (; tmp; tmp = tmp->next)
     {
-	if (size_args == nb - 1)
-	{
-	    nb += 10;
-	    args = realloc(args, sizeof(char*) * nb);
-	}
+        if (size_args == nb - 1)
+        {
+            nb += 10;
+            args = realloc(args, sizeof(char *) * nb);
+        }
         if (tmp->element)
         {
-	    if (tmp->next == NULL)
-	    {
-		char *tp = mystrdup(tmp->element->word);
-		push_pointer(tp, "exec simple");
-	        args[size_args] = tp;
-		args[size_args+1] = NULL;
-		cmd++;
-		break;
-	    }
-	    char *tp = mystrdup(tmp->element->word);
-	    push_pointer(tp, "exec simple");
-	    args[size_args] = tp;
-	    size_args++;
-	    cmd++;
+            if (tmp->next == NULL)
+            {
+                char *tp = mystrdup(tmp->element->word);
+                push_pointer(tp, "exec simple");
+                args[size_args] = tp;
+                args[size_args + 1] = NULL;
+                cmd++;
+                break;
+            }
+            char *tp = mystrdup(tmp->element->word);
+            push_pointer(tp, "exec simple");
+            args[size_args] = tp;
+            size_args++;
+            cmd++;
         }
-	else if (tmp->prefix)
-	{
-		continue;
-	}
+        else if (tmp->prefix)
+        {
+            continue;
+        }
     }
     if (cmd == 0)
-	    return 0;
+        return 0;
     size_args++;
-    /*if (is_builtin(args, size_args))
+    if (is_builtin(args, size_args))
 	   res = exec_builtin(args, size_args);
-    else*/
+    else
     {
-	    args = replace_var(args, size_args);
-	    res = exec(args);
+        args = replace_var(args, size_args);
+        res = exec(args);
     }
     return res;
 }
@@ -240,10 +241,9 @@ int exec_command(struct node_command *node)
     }
     if (node->type == FUNC)
     {
-	    return 1;
+        return 1;
     }
     return 0;
-
 }
 
 int exec_list(struct node_list *node)
@@ -252,7 +252,7 @@ int exec_list(struct node_list *node)
     int res = 0;
     for (tmp = node; tmp; tmp = tmp->next)
     {
-       res = exec_and_or(tmp->commands);
+        res = exec_and_or(tmp->commands);
     }
     return res;
 }

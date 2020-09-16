@@ -23,7 +23,6 @@ char *read_file(char *file_name)
 char *read_stdin()
 {
     int size = 1024;
-
     char *buff = safe_malloc(size);
 
     if (!buff)

@@ -1,20 +1,22 @@
 #include "structures.h"
 
-
 void push_pointer(void *ptr, char *str)
 {
         if (memo->ptr == NULL && memo->next == NULL)
         {
                 memo->ptr = ptr;
-                memo->nb ++;
+                memo->nb++;
         }
         else
         {
                 struct memory *tmp = memo;
-                for (; tmp && tmp->next != NULL;  tmp = tmp->next);
+                while (tmp && tmp->next != NULL)
+                {
+                        tmp = tmp->next;
+                }
                 struct memory *new = malloc(sizeof(struct memory));
                 new->from = str;
-		new->ptr = ptr;
+                new->ptr = ptr;
                 new->next = NULL;
                 tmp->next = new;
                 memo->nb++;
@@ -36,23 +38,23 @@ struct memory *init_memory(void)
 
 void destroy_memory(struct memory *memo)
 {
-	if (memo->ptr == NULL)
-	{
-		free(memo);
-        	return;
-	}
-	if (memo && memo->next != NULL)
-	{
-		destroy_memory(memo->next);
-	}
-	if (memo->ptr)
-	{
-		free(memo->ptr);
-		memo->ptr = NULL;
-	}
-	if (memo)
-	{
-		free(memo);
-		memo = NULL;
-	}
+        if (memo->ptr == NULL)
+        {
+                free(memo);
+                return;
+        }
+        if (memo && memo->next != NULL)
+        {
+                destroy_memory(memo->next);
+        }
+        if (memo->ptr)
+        {
+                free(memo->ptr);
+                memo->ptr = NULL;
+        }
+        if (memo)
+        {
+                free(memo);
+                memo = NULL;
+        }
 }

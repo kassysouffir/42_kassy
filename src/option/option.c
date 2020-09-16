@@ -14,7 +14,12 @@ int option_parser(char **argv, int argc)
 {
 	for (int i = 1; i < argc; i++)
 	{
-		if (strcmp(argv[i], "-c") == 0)
+		if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-help") == 0)
+		{
+			display_help();
+			return 0;
+		}
+		else if (strcmp(argv[i], "-c") == 0)
 		{
 			if (argv[i+1] != NULL)
 			{
@@ -25,11 +30,6 @@ int option_parser(char **argv, int argc)
 				fprintf(stderr, "42sh: -c: option requires an argument");
 				return 1;
 			}
-		}
-		else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-help") == 0)
-		{
-			display_help();
-			return 0;
 		}
 		else if (strcmp(argv[i], "--norc") == 0)
 		{
